@@ -1,0 +1,20 @@
+{
+    "name": "gabordikan/yii2-datepicker",
+    "description": "Yii2 Advanced datepicker widget",
+    "type": "yii2-extension",
+    "require": {
+        "yiisoft/yii2": "*"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "gabordikan\\datepicker\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Gabor Dikan"
+        }
+    ],
+    "minimum-stability": "stable"
+}
