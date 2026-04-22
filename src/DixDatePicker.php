@@ -27,17 +27,27 @@ class DixDatePicker extends DatePicker {
             $this->id = Html::getInputId($this->model, $this->attribute);
         }
 
+        $containerWidth = ($this->interval == 1) ? "340px" : "280px";
         echo 
-            '<div id="datepicker-'.$this->id.'">'.
-            Html::button('<', ['name' => 'previousMonth']).
+            '<div id="datepicker-'.$this->id.'" class="input-group period-picker-group" style="min-width: '.$containerWidth.'; width: auto; display: inline-flex; vertical-align: middle; padding: 2px;">'.
+            Html::button('<i class="fa-solid fa-chevron-left"></i>', ['name' => 'previousMonth', 'class' => 'btn btn-outline-secondary border-secondary-subtle', 'style' => 'border-radius: 12px 0 0 12px; border-right: none;']).
             $this->renderWidget() .
-            Html::button('>', ['name' => 'nextMonth']). "</div>\n";
+            Html::button('<i class="fa-solid fa-chevron-right"></i>', ['name' => 'nextMonth', 'class' => 'btn btn-outline-secondary border-secondary-subtle', 'style' => 'border-radius: 0 12px 12px 0; border-left: none;']). "</div>\n";
 
         $view->registerJs('$.datepicker.setDefaults({
             showOn: "both",
-            buttonImageOnly: false,
-            buttonText: \'<i class="fa-solid fa-calendar">\'
+            buttonText: \'<i class="fa-solid fa-calendar-days"></i>\',
+            beforeShow: function(input, inst) {
+                setTimeout(function() {
+                    $(".ui-datepicker-trigger").addClass("btn btn-outline-secondary border-secondary-subtle").css({"border-radius": "0", "border-left": "none !important", "display": "flex", "align-items": "center", "justify-content": "center", "width": "46px"});
+                }, 1);
+            }
           });
+          
+          // Initial styling for the trigger button
+          setTimeout(function() {
+             $(".ui-datepicker-trigger").addClass("btn btn-outline-secondary border-secondary-subtle").css({"border-radius": "0", "border-left": "none !important", "display": "flex", "align-items": "center", "justify-content": "center", "width": "46px", "padding": "0"});
+          }, 100);
 
           $("#'.$this->id.'").on("change", '.$this->onChange.');
 
@@ -122,8 +132,12 @@ class DixDatePicker extends DatePicker {
             }
         }
         $options = $this->options;
+        
+        Html::addCssClass($options, 'form-control text-center fw-bold border-secondary-subtle');
+        
         if (empty($options['style'])) {
-            $options['style'] = "width: 90px;";
+            $width = ($this->interval == 1) ? "200px" : "140px";
+            $options['style'] = "width: $width !important; min-width: $width !important; flex: 1 1 auto; border-radius: 0; position: relative; z-index: 2; border-right: none !important;";
         }
         $options['value'] = $value;
 
